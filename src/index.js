@@ -8,19 +8,26 @@ const repositories = [];
 
 app.post('/repositories', (request, response) => {
   const { title, url, techs } = request.body;
+  const titleExists = repositories.some((repo) => repo.title === title);
 
-  const repository = {
+  if (titleExists) {
+    return response.status(404).json({ error: 'Title already exists!' });
+  }
+
+  repositories.push({
     id: uuid(),
     title,
     url,
     techs,
     likes: 0,
-  };
+  });
 
-  return response.json(repository);
+  return response.status(201).json(repositories);
 });
 
 app.get('/repositories', (request, response) => {
+  const { repositories } = request.query;
+  console.log({ repositories });
   return response.json(repositories);
 });
 
