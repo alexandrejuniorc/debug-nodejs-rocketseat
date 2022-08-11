@@ -1,8 +1,11 @@
 const express = require('express');
+const cors = require('cors');
+
 const { v4: uuid } = require('uuid');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 const repositories = [];
 
@@ -26,8 +29,6 @@ app.post('/repositories', (request, response) => {
 });
 
 app.get('/repositories', (request, response) => {
-  const { repositories } = request.query;
-  console.log({ repositories });
   return response.json(repositories);
 });
 
